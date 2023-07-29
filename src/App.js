@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Container, Box } from '@mui/material';
+import RegistrationForm from './RegistrationForm';
+import OrderForm from './OrderForm';
 
 function App() {
+  const [userId, setUserId] = useState(null);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  const handleRegistrationSuccess = (userId) => {
+    setUserId(userId);
+    setIsRegistered(true);
+  };
+
+  const handleOrderSuccess = () => {
+    setIsRegistered(false); // Enable the RegistrationForm after successful order
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="sm">
+      <Box my={4} mt={15}> {/* Add additional top margin */}
+        {isRegistered ? (
+          <OrderForm userId={userId} handleOrderSuccess={handleOrderSuccess} />
+        ) : (
+          <RegistrationForm
+            handleRegistrationSuccess={handleRegistrationSuccess}
+            title="Register Yourself"
+          />
+        )}
+      </Box>
+    </Container>
   );
 }
 
